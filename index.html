@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <meta name="theme-color" content="#05070e" />
+    <meta
+      name="description"
+      content="CUBIC — 3D tic-tac-toe on a 3x3x3 cube with nine sliding games, a camera you can orbit, and a bot."
+    />
+    <title>CUBIC — 3D tic-tac-toe</title>
+  </head>
+  <body>
+    <div id="viewport"></div>
+
+    <header id="hud">
+      <div id="turn-card" class="glass">
+        <span id="turn-dot" class="dot"></span>
+        <div class="turn-text">
+          <strong id="turn-label">X to play</strong>
+          <span id="turn-sub">Game Y · Middle</span>
+        </div>
+        <span id="free-badge" class="badge" hidden>free move</span>
+      </div>
+      <div id="hint-card" class="glass">
+        <span><b>Click</b> a slot to play</span>
+        <span><b>Right-drag</b> / drag to orbit</span>
+        <span><b>Wheel</b> to zoom</span>
+      </div>
+    </header>
+
+    <aside id="panel" class="glass">
+      <div class="panel-head">
+        <h1>CUBIC</h1>
+        <button id="help-button" class="icon-button" title="How to play" aria-label="How to play">
+          ?
+        </button>
+      </div>
+
+      <div class="section">
+        <div class="segmented" id="mode-switch" role="tablist" aria-label="Opponent">
+          <button data-mode="hotseat" class="segmented-button is-active" role="tab">
+            Hotseat 1v1
+          </button>
+          <button data-mode="bot" class="segmented-button" role="tab">vs Bot</button>
+        </div>
+        <div class="difficulty" id="difficulty-row" hidden>
+          <span class="label">Bot level</span>
+          <div class="segmented small" id="difficulty-switch">
+            <button data-difficulty="easy" class="segmented-button">Easy</button>
+            <button data-difficulty="medium" class="segmented-button is-active">Medium</button>
+            <button data-difficulty="hard" class="segmented-button">Hard</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <span>The 9 games</span>
+          <span class="muted" id="games-progress">0 / 27 marks</span>
+        </div>
+        <div id="games-grid" class="games-grid"></div>
+        <p class="hint">
+          Your move locks the next player into the game through your slot. Click a game to aim the
+          camera at it.
+        </p>
+      </div>
+
+      <div class="section grow">
+        <div class="section-title">
+          <span>Moves</span>
+          <button id="focus-button" class="text-button">Back to active game</button>
+        </div>
+        <ol id="move-list" class="move-list"></ol>
+      </div>
+
+      <div class="section actions">
+        <button id="new-game" class="primary-button">New game</button>
+        <button id="reset-view" class="ghost-button">Reset view</button>
+      </div>
+      <p class="shortcut muted">Shortcuts: <kbd>N</kbd> new game · <kbd>R</kbd> reset view</p>
+    </aside>
+
+    <div id="status-banner" class="glass" hidden>
+      <span id="status-text"></span>
+    </div>
+
+    <div id="hover-chip" class="glass" hidden>
+      <span id="hover-text"></span>
+    </div>
+
+    <div id="thinking" class="glass" hidden>
+      <span class="pulse"></span> bot is thinking…
+    </div>
+
+    <div id="overlay" hidden>
+      <div class="overlay-card glass">
+        <span class="overlay-kicker" id="overlay-kicker">Game over</span>
+        <h2 id="overlay-title">X wins</h2>
+        <p id="overlay-sub">Three in a row through the cube.</p>
+        <div class="overlay-actions">
+          <button id="overlay-again" class="primary-button">Play again</button>
+          <button id="overlay-close" class="ghost-button">Look at the board</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="help" hidden>
+      <div class="overlay-card glass help-card">
+        <h2>How to play</h2>
+        <ul class="rules">
+          <li>
+            The board is a <b>3×3×3 cube</b> — 27 slots. It also slices into
+            <b>9 games</b> of nine slots each (three for every axis).
+          </li>
+          <li>
+            On your turn you may only play inside the <b>active game</b> (the glowing layer). The
+            slot you take <b>locks</b> the next player into the game that runs through it, and the
+            camera swings over there.
+          </li>
+          <li>
+            If the active game has no empty slot you get a <b>free move</b> anywhere in the cube.
+          </li>
+          <li>
+            <b>Win</b> by lining up three of your marks in a row — across a game, through the
+            layers, or corner to corner through the cube. Draws are impossible: every full cube
+            hides a line.
+          </li>
+          <li><b>Camera:</b> drag with the right mouse button (or drag anywhere) to orbit, wheel to zoom.</li>
+        </ul>
+        <button id="help-close" class="primary-button">Got it</button>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
